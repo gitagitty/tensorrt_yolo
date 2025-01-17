@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 
-const char* imageDir = "/home/evan/catkinedit_ws/src/TensorRT_YOLO_ROS/images"; // 图片文件夹
-const char* kInputTensorName = "images";
-const char* kOutputTensorName = "output0";
+// const char* imageDir = "/home/evan/catkinedit_ws/src/TensorRT_YOLO_ROS/images"; // 图片文件夹
+// const char* kInputTensorName = "images";
+// const char* kOutputTensorName = "output0";
 
 
 const std::vector<int> track_classes = {0};
