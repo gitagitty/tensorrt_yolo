@@ -3,10 +3,10 @@
 
 #include <opencv2/opencv.hpp>
 #include <cuda_runtime.h>
-#include "config.h"
 #include <Results.h>
 #include <InferResult.h>
 #include <KeyPoint.h>
+#include "infer.h"
 void transpose(float* src, float* dst, int numBboxes, int numElements, cudaStream_t stream);
 /*
     transpose [1 84 8400] convert to [1 8400 84]

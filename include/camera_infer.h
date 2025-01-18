@@ -23,6 +23,8 @@
 #include "byte_tracker.h" //bytetrack
 #include <chrono>
 
+extern const std::vector<int> track_classes;
+
 
 class CameraInfer:public YoloDetector, public BYTEtracker{
 public:

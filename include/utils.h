@@ -13,6 +13,15 @@
 #include <Results.h>
 #include <iomanip>
 #include "types.h"
+#include <image_infer.h>
+#include <string>
+#include <vector>
+
+
+const double K[9] = {383.6372985839844, 0.0, 316.88177490234375,
+                      0.0, 383.6372985839844, 241.00013732910156,
+                      0.0, 0.0, 1.0};
+
 // 读取文件
 static inline int read_files_in_dir(const char* p_dir_name, std::vector<std::string>& file_names)
 {
@@ -119,6 +128,8 @@ inline void draw_fps(cv::Mat& img, int& frame_count_, std::chrono::high_resoluti
         start_time_ = now;
     }
 }
+
+
 // 绘制目标检测边框
 inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::Results& results_msgs_){
     for(tensorrt_yolo::InferResult inferResult : results_msgs_.results) {
@@ -134,7 +145,8 @@ inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::Results& results_msg
                 round(inferResult.bbox[3] - inferResult.bbox[1])
         );
 
-        std::string className = vClassNames[(int) inferResult.classId]; // 获取类别名称
+
+        std::string className = vClassNames_[(int) inferResult.classId]; // 获取类别名称
         std::string labelStr = className + " " + std::to_string(inferResult.conf).substr(0, 4); // 创建标签字符串
 
         cv::Size textSize = cv::getTextSize(labelStr, cv::FONT_HERSHEY_PLAIN, 1.2, 2, NULL); // 获取文本大小

@@ -11,6 +11,9 @@
 #include <InferResult.h>
 #include <Results.h>
 
+
+std::vector<std::string> vClassNames_; 
+
 class ImageInfer : public YoloDetector{
 public:
     ImageInfer(ros::NodeHandle& nh);

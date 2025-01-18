@@ -7,14 +7,18 @@
 #include "image_infer.h"
 #include "config.h"
 
-ImageInfer::ImageInfer(ros::NodeHandle& nh):save_(true)/*,imageDir_(imageDir)*/,YoloDetector(nh){
-    nh.param("imageDir", tempimageDir);
+
+ImageInfer::ImageInfer(ros::NodeHandle& nh):save_(true),YoloDetector(nh){
+    nh.getParam("/imageDir", tempimageDir);
+    nh.getParam("/vClassNames", vClassNames_);
     imageDir_ =  tempimageDir.c_str();
     if (read_files_in_dir(imageDir_, file_names_) < 0) {
         std::cout << "read_files_in_dir failed." << std::endl;
     }
 
 }
+
+
 
 int ImageInfer::run(){
     // 推理
@@ -69,7 +73,7 @@ void ImageInfer::draw_image(cv::Mat& img, tensorrt_yolo::InferResult inferResult
     double fontScale = 0.5;
     int thickness = 1;
 
-    std::string className = vClassNames[(int)inferResult.classId]; // 获取类别名称
+    std::string className = vClassNames_[(int)inferResult.classId]; // 获取类别名称
     std::string labelStr = className + " " + std::to_string(inferResult.conf).substr(0, 4); // 创建标签字符串
 
     cv::Size textSize = cv::getTextSize(labelStr, cv::FONT_HERSHEY_PLAIN, 1.2, 2, NULL); // 获取文本大小

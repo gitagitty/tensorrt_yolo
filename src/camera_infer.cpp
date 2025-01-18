@@ -21,6 +21,8 @@
 #include "byte_tracker.h" //bytetrack
 #include <chrono>
 
+const std::vector<int> track_classes = {0};
+
 
 CameraInfer::CameraInfer(ros::NodeHandle& nh):
 it_(nh),

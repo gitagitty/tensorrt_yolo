@@ -11,7 +11,15 @@
 
 using namespace nvinfer1;
 
+extern const char* kInputTensorName;
+extern const char* kOutputTensorName;
+extern const int kGpuId;
+extern const int kInputH ;
+extern const int kInputW ;
+extern const int kMaxNumOutputBbox;  // assume the box outputs no more than kMaxNumOutputBbox boxes that conf >= kNmsThresh;
 
+extern const std::string cacheFile;
+extern const std::string calibrationDataPath ;  // 存放用于 int8 量化校准的图像
 
 class YoloDetector
 {
@@ -21,10 +29,6 @@ public:
     tensorrt_yolo::Results inference(cv::Mat& img);
     tensorrt_yolo::Results inference(cv::Mat& img, bool pose);
     ros::NodeHandle&    nh_;
-    std::string tempInputTensorName;
-    std::string tempOutputTensorName;
-    const char*         kInputTensorName;
-    const char*         kOutputTensorName;
 private:
     void get_engine();
     void deserialize_engine();
@@ -35,7 +39,8 @@ private:
     Logger              gLogger;
     std::string         trtFile_;
     std::string         onnxFile_;
-    
+    bool                bFP16Mode_;
+    bool                bINT8Mode_;
 
     int                 numClass_;
     float               nmsThresh_;

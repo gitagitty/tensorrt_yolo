@@ -15,6 +15,19 @@
 #include "config.h"
 using namespace nvinfer1;
 
+const char* kInputTensorName = "images";
+const char* kOutputTensorName = "output0";
+const int kGpuId = 0; //显卡id，一张显卡默认为0
+
+// image的高和宽
+const int kInputH = 640;
+const int kInputW = 640;
+const int kMaxNumOutputBbox = 1000;  // assume the box outputs no more than kMaxNumOutputBbox boxes that conf >= kNmsThresh;
+
+const std::string cacheFile = "./int8.cache";
+const std::string calibrationDataPath = "../calibrator";  // 存放用于 int8 量化校准的图像
+
+
 YoloDetector::YoloDetector(ros::NodeHandle& nh):
 img_(nullptr),
 nh_(nh)
@@ -26,13 +39,9 @@ nh_(nh)
     nh.getParam("/yolo_node/nmsThresh", nmsThresh_);
     nh.getParam("/yolo_node/numKpt", numKpt_);
     nh.getParam("/yolo_node/kptDims", kptDims_);
-    nh.getParam("kInputTensorName", tempInputTensorName);
-    nh.getParam("kOutputTensorName", tempOutputTensorName);
+    nh.getParam("/yolo_node/bFP16Mode", bFP16Mode_);
+    nh.getParam("/yolo_node/bINT8Mode", bINT8Mode_);
 
-    kInputTensorName = tempInputTensorName.c_str();
-    kOutputTensorName = tempOutputTensorName.c_str();
-    // nh.getParam("kInputTensorName", kInputTensorName);
-    // nh.getParam("kOutputTensorName", kOutputTensorName);
     numBoxElement_ = 7 + numKpt_ * kptDims_;
     gLogger = Logger(ILogger::Severity::kERROR); // 设置日志记录器
     cudaSetDevice(kGpuId); // 设置当前 GPU
@@ -100,10 +109,10 @@ void YoloDetector::serialize_engine() {
     IBuilderConfig *      config      = builder->createBuilderConfig(); // 创建构建配置
     IInt8Calibrator *     pCalibrator = nullptr;
     config->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE, 1<30);
-    if (bFP16Mode){
+    if (bFP16Mode_){
         config->setFlag(BuilderFlag::kFP16); // 启用 FP16 精度
     }
-    if (bINT8Mode){
+    if (bINT8Mode_){
         config->setFlag(BuilderFlag::kINT8); // 启用 INT8 精度
         int batchSize = 8;
         pCalibrator = new Int8EntropyCalibrator2(batchSize, kInputW, kInputH, calibrationDataPath.c_str(), cacheFile.c_str()); // 创建 INT8 校准器
@@ -135,7 +144,7 @@ void YoloDetector::serialize_engine() {
     if (engine == nullptr) { ROS_ERROR("Failed building engine!"); return; }
     ROS_INFO("Succeeded building engine!");
 
-    if (bINT8Mode && pCalibrator != nullptr){
+    if (bINT8Mode_ && pCalibrator != nullptr){
         delete pCalibrator; // 删除校准器
     }
 
