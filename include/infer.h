@@ -46,6 +46,7 @@ private:
     Logger              gLogger;
     std::string         trtFile_;
     std::string         onnxFile_;
+    std::string         vClassNamesStr;
     bool                bFP16Mode_;
     bool                bINT8Mode_;
 

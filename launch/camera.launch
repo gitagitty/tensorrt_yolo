@@ -196,14 +196,9 @@
 
    </node> 
    
-   <!-- 图片文件夹 -->
+   <!-- 图片推理文件夹 -->
    <param name="imageDir" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/images"/> 
-   <!-- <param name="track_classes" type = "std::vector<int>" value="{0}"/> -->
-   <!-- <param name="kGpuId" type = "int" value="0"/>  -->
    
    <!-- 目标检测类型名称 -->
-   <param name="vClassNames" type = "std::vector<std::string>"  value="{
-                                                                            "person"
-                                                                        }"/>
-
+   <param name="vClassNames" type="yaml" value="[ 'person' ]"/>                                                                  
 </launch>

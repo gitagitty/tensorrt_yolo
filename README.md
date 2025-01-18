@@ -2,6 +2,10 @@
 
 ## 更新日志
 
+### v3.2 -2025.1.18
+
+- 完成对config功能的迁移
+
 ### v4.0 -2024.8.27
 
 - [完成ros2的兼容](https://github.com/wyf-yfw/TensorRT_YOLO_ROS2)
@@ -57,6 +61,8 @@
 #### 支持[TensorRT 8](https://github.com/wyf-yfw/TensorRT_YOLO_ROS/releases/tag/v12.8.1)
 
 #### 支持[TensorRT 10](https://github.com/wyf-yfw/TensorRT_YOLO_ROS/releases/tag/v12.10.1)
+#### [2025版](https://github.com/gitagitty/tensorrt_yolo.git)
+
 
 #### [ROS2仓库](https://github.com/wyf-yfw/TensorRT_YOLO_ROS2)
 
@@ -130,11 +136,15 @@
 
 ├── launch
 
+│   ├── camera.launch
+
 │   └── d435i_yolo.launch
 
 ├── msg
 
 │   ├── infer_result.msg
+
+│   ├── KeyPoint.msg
 
 │   └── results.msg
 
@@ -212,10 +222,10 @@ path = model.export(format="onnx", simplify=True, device=0, opset=12, dynamic=Fa
 
    ```bash
    cd catkin_ws/src
-   git clone https://github.com/wyf-yfw/TensorRT_YOLO_ROS.git
+   git clone git@github.com:gitagitty/tensorrt_yolo.git
    ```
 
-2. 如果是自己数据集上训练得到的模型，记得更改 `src/config.cpp` 中的相关配置，所有的配置信息全部都包含在`config.cpp`中；
+2. 如果是自己数据集上训练得到的模型，记得更改 `launch` 中的相关配置，所有的配置信息全部都包含在`launch`文件中；
 
 3. 确认 `CMakeLists.txt` 文件中 `cuda` 和 `tensorrt` 库的路径，与自己环境要对应，一般情况下是不需修改的；
 
@@ -225,28 +235,30 @@ path = model.export(format="onnx", simplify=True, device=0, opset=12, dynamic=Fa
 
 ## 运行节点
 
-目前共有两个节点，分别是image_infer_node、camera_infer_node
-
-先运行自己的相机节点，然后运行相应的推理节点
+必须先运行launch文件，再运行节点
+节点 image_infer_node用于images文件夹内图片推理
 
 d435i相机可以直接运行launch文件
 
 ```bash
 roslaunch tensorrt_yolo d435i_yolo.launch 
 ```
-
+通用launch文件
+```
+roslaunch tensorrt_yolo camera.launch
+```
 在launch文件中调整自己的参数，需要移植可以直接将下面这部分复制到自己的launch文件当中
 
 ```xml
-<!-- 启动目标检测节点 -->
- <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
-     
-      <!-- 是否启动目标跟踪 -->
-        <param name="track" value="true"/>
+    <!-- 启动目标检测节点 -->
+    <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
+
+        <!-- 是否启动目标跟踪 -->
+        <param name="track" value="false"/>
         <!-- 是否启动深度相机 -->
-        <param name="depth" value="true"/>
+        <param name="depth" value="false"/>
         <!-- 是否启动姿态检测 -->
-        <param name="pose" value="true"/>
+        <param name="pose" value="false"/>
 
         <!-- rgb图像topic -->
         <param name="rgbImageTopic" value="camera/color/image_raw"/>
@@ -254,9 +266,9 @@ roslaunch tensorrt_yolo d435i_yolo.launch
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose-fp16.plan"/>
+        <param name="planFile" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/onnx_model/yolov8s.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose.onnx"/>
+        <param name="onnxFile" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/onnx_model/yolov8s.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>
@@ -270,7 +282,19 @@ roslaunch tensorrt_yolo d435i_yolo.launch
         <!-- 姿态检测维度 -->
         <param name="kptDims" type = "int" value="3"/>
 
-   </node>
+        <!-- 推理模式选择 -->
+        <!-- fp16 -->
+        <param name="bFP16Mode" type = "bool" value="true"/>
+        <!-- int8 -->
+        <param name="bINT8Mode" type = "bool" value="false"/>
+
+   </node> 
+   
+   <!-- 图片推理文件夹 -->
+   <param name="imageDir" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/images"/> 
+   
+   <!-- 目标检测类型名称 -->
+   <param name="vClassNames" type="yaml" value="[ 'person' ]"/>   
 ```
 
 ## 节点订阅数据

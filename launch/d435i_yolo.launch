@@ -127,9 +127,9 @@
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8-10.plan"/>
+        <param name="planFile" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/onnx_model/yolov8s.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8.onnx"/>
+        <param name="onnxFile" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/onnx_model/yolov8s.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>
@@ -143,5 +143,17 @@
         <!-- 姿态检测维度 -->
         <param name="kptDims" type = "int" value="3"/>
 
-   </node>
+        <!-- 推理模式选择 -->
+        <!-- fp16 -->
+        <param name="bFP16Mode" type = "bool" value="true"/>
+        <!-- int8 -->
+        <param name="bINT8Mode" type = "bool" value="false"/>
+
+   </node> 
+   
+   <!-- 图片推理文件夹 -->
+   <param name="imageDir" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/images"/> 
+   
+   <!-- 目标检测类型名称 -->
+   <param name="vClassNames" type="yaml" value="[ 'person' ]"/>
 </launch>
