@@ -58,19 +58,6 @@ const std::vector<std::vector<int>> skeleton {
         {5, 7}
 };
 
-/* // 定义一个函数解析字符串为vector
-std::vector<std::string> parseVectorString(const std::string& input) {
-    std::vector<std::string> result;
-    std::string trimmed = input.substr(1, input.size() - 2); // 去掉两端的括号
-    std::stringstream ss(trimmed);
-    std::string item;
-    while (std::getline(ss, item, ',')) {
-        item.erase(remove(item.begin(), item.end(), '\''), item.end()); // 去掉单引号
-        item.erase(remove(item.begin(), item.end(), ' '), item.end()); // 去掉多余空格
-        result.push_back(item);
-    }
-    return result;
-} */
 
 YoloDetector::YoloDetector(ros::NodeHandle& nh):
 img_(nullptr),
@@ -86,11 +73,12 @@ nh_(nh)
     nh.getParam("/yolo_node/bFP16Mode", bFP16Mode_);
     nh.getParam("/yolo_node/bINT8Mode", bINT8Mode_);
     nh.getParam("/vClassNames", ClassNames);
-    // std::cout << vClassNamesStr << std::endl;
- /*    
-    std::vector<std::string> ClassNames = parseVectorString(vClassNamesStr);
-    std::cout << "Processed class names: " << ClassNames.size() << std::endl;
- */
+
+    for (const auto& name : ClassNames) {
+    std::cout << name << std::endl; // 打印所有类别名称
+    }
+
+
     numBoxElement_ = 7 + numKpt_ * kptDims_;
     gLogger = Logger(ILogger::Severity::kERROR); // 设置日志记录器
     cudaSetDevice(kGpuId); // 设置当前 GPU

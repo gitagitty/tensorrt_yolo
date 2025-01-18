@@ -160,9 +160,9 @@
     <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
 
         <!-- 是否启动目标跟踪 -->
-        <param name="track" value="false"/>
+        <param name="track" value="true"/>
         <!-- 是否启动深度相机 -->
-        <param name="depth" value="false"/>
+        <param name="depth" value="true"/>
         <!-- 是否启动姿态检测 -->
         <param name="pose" value="false"/>
 
@@ -182,7 +182,7 @@
         <param name="confThresh" type = "double" value="0.7"/>
 
         <!-- 目标检测类型数量 -->
-        <param name="numClass" type = "int" value="1"/>
+        <param name="numClass" type = "int" value="2"/>
         <!-- 姿态检测特征点 -->
         <param name="numKpt" type = "int" value="17"/>
         <!-- 姿态检测维度 -->
@@ -200,5 +200,6 @@
    <param name="imageDir" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/images"/> 
    
    <!-- 目标检测类型名称 -->
-   <param name="vClassNames" type="yaml" value="[ 'person' ]"/>                                                                  
+   <param name="vClassNames" type="yaml" value="[ 'backboard', 'basket' ]"/>
+                                                                
 </launch>

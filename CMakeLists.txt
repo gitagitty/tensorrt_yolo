@@ -105,3 +105,15 @@ target_link_libraries(image_infer_node
         yolo_infer
         ${catkin_LIBRARIES}
 )
+
+add_executable(infer_get 
+        src/infer_get.cpp
+)
+
+target_link_libraries(infer_get 
+        ${catkin_LIBRARIES}
+)
+
+add_dependencies(infer_get 
+        ${PROJECT_NAME}_generate_messages_cpp
+)
