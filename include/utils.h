@@ -6,21 +6,18 @@
 #include <opencv2/opencv.hpp>
 #include <chrono>
 #include "byte_tracker.h"
-#include "config.h"
 #include <ros/ros.h>
 #include <InferResult.h>
 #include <KeyPoint.h>
 #include <Results.h>
 #include <iomanip>
 #include "types.h"
-#include <image_infer.h>
+#include "infer.h"
 #include <string>
 #include <vector>
 
 
-const double K[9] = {383.6372985839844, 0.0, 316.88177490234375,
-                      0.0, 383.6372985839844, 241.00013732910156,
-                      0.0, 0.0, 1.0};
+
 
 // 读取文件
 static inline int read_files_in_dir(const char* p_dir_name, std::vector<std::string>& file_names)
@@ -143,10 +140,10 @@ inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::Results& results_msg
                 round(inferResult.bbox[1]),
                 round(inferResult.bbox[2] - inferResult.bbox[0]),
                 round(inferResult.bbox[3] - inferResult.bbox[1])
-        );
+        ); 
 
 
-        std::string className = vClassNames_[(int) inferResult.classId]; // 获取类别名称
+        std::string className = ClassNames[(int) inferResult.classId]; // 获取类别名称
         std::string labelStr = className + " " + std::to_string(inferResult.conf).substr(0, 4); // 创建标签字符串
 
         cv::Size textSize = cv::getTextSize(labelStr, cv::FONT_HERSHEY_PLAIN, 1.2, 2, NULL); // 获取文本大小

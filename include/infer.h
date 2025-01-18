@@ -3,7 +3,6 @@
 
 #include <opencv2/opencv.hpp>
 #include "public.h"
-#include "config.h"
 #include "types.h"
 #include <ros/ros.h>
 #include <InferResult.h>
@@ -20,6 +19,14 @@ extern const int kMaxNumOutputBbox;  // assume the box outputs no more than kMax
 
 extern const std::string cacheFile;
 extern const std::string calibrationDataPath ;  // 存放用于 int8 量化校准的图像
+extern std::vector<std::string> ClassNames; 
+
+extern const std::vector<int> track_classes;
+extern const double K[9];
+// 模型骨架
+extern const std::vector<std::vector<int>> skeleton;
+
+// std::vector<double> D = {0.0, 0.0, 0.0, 0.0};
 
 class YoloDetector
 {

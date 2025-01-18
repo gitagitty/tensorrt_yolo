@@ -4,7 +4,6 @@
 #include <InferResult.h>
 #include <Results.h>
 #include "utils.h"
-#include "config.h"
 #include <sensor_msgs/Image.h>
 #include <cv_bridge/cv_bridge.h>
 #include <ros/ros.h>

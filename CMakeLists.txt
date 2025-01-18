@@ -67,8 +67,6 @@ cuda_add_library(yolo_infer
         src/calibrator.cpp
         src/postprocess.cu
         src/preprocess.cu
-        src/config.cpp
-        src/config.cpp
 )
 target_link_libraries(yolo_infer
         cudart

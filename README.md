@@ -102,8 +102,6 @@
 
 │   ├── camera_infer.h
 
-│   ├── config.h
-
 │   ├── dataType.h
 
 │   ├── image_infer.h
@@ -161,8 +159,6 @@
 ​    ├── calibrator.cpp
 
 ​    ├── camera_infer.cpp
-
-​    ├── config.cpp
 
 ​    ├── image_infer.cpp
 

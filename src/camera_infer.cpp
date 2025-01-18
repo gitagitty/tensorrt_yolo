@@ -6,7 +6,6 @@
 #include "utils.h"
 #include "infer.h"
 #include <utility>
-#include "config.h"
 #include <sensor_msgs/Image.h>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
@@ -21,7 +20,7 @@
 #include "byte_tracker.h" //bytetrack
 #include <chrono>
 
-const std::vector<int> track_classes = {0};
+
 
 
 CameraInfer::CameraInfer(ros::NodeHandle& nh):

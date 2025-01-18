@@ -2,8 +2,7 @@
 #define TYPES_H
 
 #include <string>
-#include "config.h"
-
+#include <infer.h>
 
 struct Detection
 {

@@ -12,7 +12,6 @@
 #include <Results.h>
 
 
-std::vector<std::string> vClassNames_; 
 
 class ImageInfer : public YoloDetector{
 public:

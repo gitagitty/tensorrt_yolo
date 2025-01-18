@@ -12,7 +12,6 @@
 #include <geometry_msgs/Point.h>
 #include <InferResult.h>
 #include <Results.h>
-#include "config.h"
 using namespace nvinfer1;
 
 const char* kInputTensorName = "images";
@@ -26,7 +25,35 @@ const int kMaxNumOutputBbox = 1000;  // assume the box outputs no more than kMax
 
 const std::string cacheFile = "./int8.cache";
 const std::string calibrationDataPath = "../calibrator";  // 存放用于 int8 量化校准的图像
+std::vector<std::string> ClassNames; 
 
+const std::vector<int> track_classes = {0};
+
+const double K[9] = {383.6372985839844, 0.0, 316.88177490234375,
+                      0.0, 383.6372985839844, 241.00013732910156,
+                      0.0, 0.0, 1.0};
+// 模型骨架
+const std::vector<std::vector<int>> skeleton {
+        {16, 14},
+        {14, 12},
+        {17, 15},
+        {15, 13},
+        {12, 13},
+        {6, 12},
+        {7, 13},
+        {6, 7},
+        {6, 8},
+        {7, 9},
+        {8, 10},
+        {9, 11},
+        {2, 3},
+        {1, 2},
+        {1, 3},
+        {2, 4},
+        {3, 5},
+        {4, 6},
+        {5, 7}
+};
 
 YoloDetector::YoloDetector(ros::NodeHandle& nh):
 img_(nullptr),
@@ -41,6 +68,7 @@ nh_(nh)
     nh.getParam("/yolo_node/kptDims", kptDims_);
     nh.getParam("/yolo_node/bFP16Mode", bFP16Mode_);
     nh.getParam("/yolo_node/bINT8Mode", bINT8Mode_);
+    nh.getParam("/vClassNames", ClassNames);
 
     numBoxElement_ = 7 + numKpt_ * kptDims_;
     gLogger = Logger(ILogger::Severity::kERROR); // 设置日志记录器
