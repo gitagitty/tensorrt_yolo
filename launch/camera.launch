@@ -172,9 +172,9 @@
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/onnx_model/yolov8s.plan"/>
+        <param name="planFile" value="/home/evan/catkin_ws/src/tensorrt_yolo/onnx_model/yolov8s.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/onnx_model/yolov8s.onnx"/>
+        <param name="onnxFile" value="/home/evan/catkin_ws/src/tensorrt_yolo/onnx_model/yolov8s.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>
@@ -197,7 +197,7 @@
    </node> 
    
    <!-- 图片推理文件夹 -->
-   <param name="imageDir" value="/home/evan/catkinedit_ws/src/tensorrt_yolo/images"/> 
+   <param name="imageDir" value="/home/evan/catkin_ws/src/tensorrt_yolo/images"/> 
    
    <!-- 目标检测类型名称 -->
    <param name="vClassNames" type="yaml" value="[ 'person' ]"/>
