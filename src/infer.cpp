@@ -74,11 +74,6 @@ nh_(nh)
     nh.getParam("/yolo_node/bINT8Mode", bINT8Mode_);
     nh.getParam("/vClassNames", ClassNames);
 
-    for (const auto& name : ClassNames) {
-    std::cout << name << std::endl; // 打印所有类别名称
-    }
-
-
     numBoxElement_ = 7 + numKpt_ * kptDims_;
     gLogger = Logger(ILogger::Severity::kERROR); // 设置日志记录器
     cudaSetDevice(kGpuId); // 设置当前 GPU
