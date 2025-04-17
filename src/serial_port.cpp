@@ -6,6 +6,7 @@
 #include <sstream>  // 用于数据转换
 
 serial::Serial ser;
+std::string port_;
 
 // 串口初始化函数
 void initSerialPort(const std::string &port, unsigned long baudrate) {
@@ -65,9 +66,10 @@ void resultsCallback(const tensorrt_yolo::Results::ConstPtr& msg) {
 int main(int argc, char **argv) {
     ros::init(argc, argv, "serial_port");
     ros::NodeHandle nh;
+    nh.getParam("/serial_port/port", port_);
 
     // 初始化串口，假设串口路径为 /dev/ttyUSB0，波特率为 9600
-    initSerialPort("/dev/ttyUSB0", 9600);
+    initSerialPort(port_, 9600);
 
     // 订阅ROS话题
     ros::Subscriber sub = nh.subscribe("/infer_results", 1000, resultsCallback);

@@ -152,6 +152,11 @@
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find realsense2_description)/urdf/test_d435_camera.urdf.xacro' use_nominal_extrinsics:=false"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
+  <!-- 启动串口通信 -->
+  <node name="serial_port" pkg="tensorrt_yolo" type="serial_port" >
+    <param name="port" value="/dev/ttyUSB0"/>
+
+    
   <!-- 启动rviz -->
 <!--   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_description)/rviz/urdf.rviz" required="true"/> -->
 
@@ -172,9 +177,9 @@
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/roboconv1.plan"/>
+        <param name="planFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/yolov8ndc.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/roboconv1.onnx"/>
+        <param name="onnxFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/yolov8ndc.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>
@@ -200,6 +205,6 @@
    <param name="imageDir" value="/home/rts/catkin_ws/src/TensorRT_YOLO_ROS/images"/> 
    
    <!-- 目标检测类型名称 -->
-   <param name="vClassNames" type="yaml" value="[ 'backboard', 'basket' ]"/>
+   <param name="vClassNames" type="yaml" value="[ 'magnet', 'robot' ]"/>
                                                                 
 </launch>
