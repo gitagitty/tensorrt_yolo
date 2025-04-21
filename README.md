@@ -2,6 +2,10 @@
 
 ## 更新日志
 
+### v4.0 - 2025.3
+
+- 添加串口通信，将config文件中全部需要调整参数转移到launch文件中
+
 ### v3.0 - 2024.8.25
 
 - 大量config参数从config.cpp文件转移到launch文件当中,方便参数调整
@@ -118,8 +122,6 @@ cmake 3.22.1
 
 │   ├── camera_infer.h
 
-│   ├── config.h
-
 │   ├── dataType.h
 
 │   ├── image_infer.h
@@ -154,6 +156,8 @@ cmake 3.22.1
 
 │   ├── infer_result.msg
 
+│   ├── KeyPoint.msg
+
 │   └── results.msg
 
 ├── onnx_model
@@ -178,8 +182,6 @@ cmake 3.22.1
 
 ​    ├── camera_infer.cpp
 
-​    ├── config.cpp
-
 ​    ├── image_infer.cpp
 
 ​    ├── infer.cpp
@@ -189,6 +191,8 @@ cmake 3.22.1
 ​    ├── postprocess.cu
 
 ​    ├── preprocess.cu
+
+    ├── serial_port.cpp
 
 ​    └── STrack.cpp
 

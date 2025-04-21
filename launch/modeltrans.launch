@@ -17,9 +17,9 @@
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/roboconv1.plan"/>
+        <param name="planFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/yolov8s.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/roboconv1.onnx"/>
+        <param name="onnxFile" value="/home/evan/robocon_ws/src/tensorrt_yolo/onnx_model/yolov8s.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>
