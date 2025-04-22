@@ -155,7 +155,7 @@
   <!-- 启动串口通信 -->
   <node name="serial_port" pkg="tensorrt_yolo" type="serial_port" >
     <param name="port" value="/dev/ttyUSB0"/>
-
+  </node>
     
   <!-- 启动rviz -->
 <!--   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_description)/rviz/urdf.rviz" required="true"/> -->
